@@ -1,7 +1,8 @@
 {
-  "short_name": "Weather",
-  "name": "Weather - Do I need an umbrella?",
-  "description": "Weather forecast information",
+  "prefer_related_applications": false,
+  "short_name": "Softguard",
+  "name": "Softguard",
+  "description": "Softguard",
   "icons": [
     {
       "src": "https://via.placeholder.com/48",

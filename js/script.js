@@ -1,24 +1,31 @@
-const divInstall = document.getElementById('installContainer');
-const butInstall = document.getElementById('butInstall');
+let deferredPrompt; // Allows to show the install prompt
+const installButton = document.getElementById("install_button");
 
-/* Put code here */
+window.addEventListener("beforeinstallprompt", e => {
+  console.log("beforeinstallprompt fired");
+  // Prevent Chrome 76 and earlier from automatically showing a prompt
+  e.preventDefault();
+  // Stash the event so it can be triggered later.
+  deferredPrompt = e;
+  // Show the install button
+  installButton.hidden = false;
+  installButton.addEventListener("click", installApp);
+});
 
+function installApp() {
+  // Show the prompt
+  deferredPrompt.prompt();
+  installButton.disabled = true;
 
-
-/* Only register a service worker if it's supported */
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('../service-worker.js');
-}
-
-/**
- * Warn the page must be served over HTTPS
- * The `beforeinstallprompt` event won't fire if the page is served over HTTP.
- * Installability requires a service worker with a fetch event handler, and
- * if the page isn't served over HTTPS, the service worker won't load.
- */
-if (window.location.protocol === 'http:') {
-  const requireHTTPS = document.getElementById('requireHTTPS');
-  const link = requireHTTPS.querySelector('a');
-  link.href = window.location.href.replace('http://', 'https://');
-  requireHTTPS.classList.remove('hidden');
+  // Wait for the user to respond to the prompt
+  deferredPrompt.userChoice.then(choiceResult => {
+    if (choiceResult.outcome === "accepted") {
+      console.log("PWA setup accepted");
+      installButton.hidden = true;
+    } else {
+      console.log("PWA setup rejected");
+    }
+    installButton.disabled = false;
+    deferredPrompt = null;
+  });
 }
