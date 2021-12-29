@@ -15,13 +15,28 @@
       InstallableR
     </h1>
     
-
+<!--<a id="id1">Instalar</a>
+-->
 	
 	<button id="install_button" hidden>Install</button>
 
-     <script>
+     <script type="text/javascript">
+	 
+	 //function instalar() { 
+			//  installButton.hidden = false;
+		//	  installButton.addEventListener("click", installApp);
+	 //}
+
+
+    //document.getElementById("id1").addEventListener("click", click_handler1, false);
+
+
+            //window.addEventListener("load", setup, false);
+
 			let deferredPrompt; // Allows to show the install prompt
 			const installButton = document.getElementById("install_button");
+		
+		
 
 			window.addEventListener("beforeinstallprompt", e => {
 			  console.log("beforeinstallprompt fired");
